@@ -1,6 +1,6 @@
 package client.models;
 
-import client.sample.Controller;
+import client.controllers.Controller;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -52,7 +52,9 @@ public class Network {
     public DataOutputStream getOut() {
         return out;
     }
-
+    public DataInputStream getIn() {
+        return in;
+    }
 
     public void waitMessage(Controller Controller) {
         Thread thread = new Thread(() -> {

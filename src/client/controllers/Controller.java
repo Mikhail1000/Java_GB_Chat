@@ -1,9 +1,12 @@
-package sample;
+package client.controllers;
 
+import client.models.Network;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.io.IOException;
 
 public class Controller {
     @FXML
@@ -25,6 +28,12 @@ public class Controller {
         System.exit(0);
     }
 
+    private Network network;
+
+    public void setNetwork(Network network) {
+        this.network = network;
+    }
+
     @FXML
     void sendMessage() {
         String message = textField.getText().trim();
@@ -35,13 +44,23 @@ public class Controller {
             System.out.println("Пустая строка!");
         }
         textField.clear();
+        textField.requestFocus();
+
+        try {
+            network.getOut().writeUTF(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Ошибка при отправке сообщения");
+        }
     }
 
-    private void addMessageToList(String message) {
+    public void addMessageToList(String message) {
         var items = messageField.getItems();
         int index = items.size();
         messageField.getItems().add(message);
-        messageField.scrollTo(index);
+
+        //messageField.scrollTo(index);
+
     }
 }
 
